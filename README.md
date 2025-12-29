@@ -15,4 +15,4 @@ As tecnologias previstas para serem utilizadas são:
 > As funcionalidades e descrições serão atualizadas conforme a evolução do projeto.
 
 
-parei em 29:46
+29:46
