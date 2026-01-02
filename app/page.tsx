@@ -1,27 +1,12 @@
-import Tarefas from "@/components/Tarefas/Tarefas";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import DelTask from "@/components/ui/del-task";
+import EditTask from "@/components/ui/edit-task";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@radix-ui/react-separator";
 import {
   BadgePlus,
   Check,
@@ -31,14 +16,74 @@ import {
   Sigma,
   Trash,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Tasks } from "@/generated/prisma/client";
+import { GetTasks } from "@/prisma/actions/getTasksFromDb";
+import { NewTask } from "@/prisma/actions/add-task";
+import { DeleteTask } from "@/prisma/actions/delete-task";
 
 const Home = () => {
+  const [taskList, setTaskList] = useState<Tasks[]>([]);
+  const [task, setTask] = useState<string>("");
+
+  const handleGetTasks = async () => {
+    try {
+      const tasks = await GetTasks();
+      if (!tasks) return;
+      setTaskList(tasks);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleAddTask = async () => {
+    try {
+      if (task.length === 0 || !task) return;
+
+      const myNewTask = await NewTask(task);
+      if (!myNewTask) return;
+
+      setTask("");
+      await handleGetTasks();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleDeleteTask = async (id: string) => {
+    try {
+      if (!id) return;
+
+      const deletedTask = await DeleteTask(id);
+
+      if (!deletedTask) return;
+
+      await handleGetTasks();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    handleGetTasks();
+  }, []);
+
   return (
     <main className="w-full h-screen bg-gray-100 flex justify-center items-center">
       <Card className="w-lg">
         <CardHeader className="flex gap-2">
-          <Input type="email" placeholder="Adicionar tarefa" />
-          <Button variant="default" className="cursor-pointer">
+          <Input
+            type="text"
+            placeholder="Adicionar tarefa"
+            onChange={(e) => setTask(e.target.value)}
+            value={task}
+          />
+          <Button
+            variant="default"
+            className="cursor-pointer"
+            onClick={handleAddTask}
+          >
             <BadgePlus /> Cadastrar
           </Button>
         </CardHeader>
@@ -66,7 +111,24 @@ const Home = () => {
           {/* tarefas cadastradas */}
 
           <div className="mt-4 border-b">
-            <Tarefas />
+            {taskList.map((task) => (
+              <div
+                key={task.id}
+                className="h-14 flex justify-between items-center border-t"
+              >
+                <div className="w-1 h-full bg-green-300"></div>
+                <p className="flex-1 px-2 text-sm">{task.title}</p>
+
+                <div className="flex items-center gap-2">
+                  <EditTask />
+                  <Trash
+                    size={16}
+                    className="cursor-pointer"
+                    onClick={() => handleDeleteTask(task.id)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* barra de tarefas concluidas */}
@@ -75,27 +137,7 @@ const Home = () => {
               <ListChecks size={18} />
               <p className="text-xs">Tarefas concluidas (3/3)</p>
             </div>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="text-xs h-7 cursor-pointer"
-                >
-                  <Trash /> Limpar tarefas concluidas
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Tem certeza que deseja excluir x itens?
-                  </AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogAction>Sim</AlertDialogAction>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <DelTask />
           </div>
 
           {/* barra de progresso de tarefas */}
