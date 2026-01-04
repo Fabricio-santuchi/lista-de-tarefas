@@ -12,8 +12,9 @@ O objetivo principal do projeto é permitir que o usuário **crie, visualize, at
 
 ![Tela principal](./public/screenshots/home.png)
 ![Lista de tarefas](./public/screenshots/tasks.png)
-![Lista de tarefas](./public/screenshots/empty.png)
-![Lista de tarefas](./public/screenshots/edit.png)
+![Lista vazia](./public/screenshots/empty.png)
+![editando tarefa](./public/screenshots/edit.png)
+![tarefas não concluidas](./public/screenshots/notFinished.png)
 
 ---
 ## 🎯 Objetivos do Projeto
