@@ -33,7 +33,7 @@ O objetivo principal do projeto é permitir que o usuário **crie, visualize, at
 
 ### 🔹 Back-end
 
-* **Next.js API Routes (********/app/api****************************************************)** – Criação de endpoints sem backend separado
+* **Next.js (Server Components + Server Actions)** – A aplicação utiliza o próprio Next.js como backend, **sem uso de API Routes**, acessando o banco diretamente no servidor
 * **Prisma ORM** – Mapeamento objeto-relacional
 * **PostgreSQL** – Banco de dados relacional
 * **pg** – Driver de conexão com o PostgreSQL
@@ -65,11 +65,6 @@ app/
 lib/
  ├─ prisma.ts          # Instância do Prisma Client
  ├─ utils.ts           # Funções utilitárias
- ├─ enums.ts           # Enums da aplicação
- ├─ models.ts          # Tipos e interfaces
- ├─ commonInputTypes.ts
- ├─ browsers.ts
- ├─ client.ts
 
 prisma/
  ├─ schema.prisma      # Modelos do banco de dados
@@ -97,11 +92,13 @@ O banco de dados utiliza PostgreSQL com Prisma ORM.
 Exemplo de modelo de tarefa:
 
 ```prisma
-model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
+model Tasks {
+id String @id @default(uuid(7)) @db.Uuid
+title String
+isCompleted Boolean @default(false)
+
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
 }
 ```
 
@@ -126,15 +123,6 @@ Cada tarefa possui:
 * Interface responsiva
 * Feedback visual com notificações
 
-### 🚧 Possíveis Melhorias Futuras
-
-* Autenticação de usuários
-* Filtro por tarefas concluídas / pendentes
-* Edição do título da tarefa
-* Paginação
-* Dark mode avançado
-* Testes automatizados
-
 ---
 
 ## ⚙️ Scripts do Projeto
@@ -153,7 +141,7 @@ npm run lint    # Verificação de código
 * Componentização com React
 * Hooks (`useState`, `useEffect`)
 * Server Components e Client Components
-* API REST dentro do Next.js
+* Server Actions para comunicação direta com o banco (sem API Routes)
 * ORM e migrations com Prisma
 * Boas práticas de organização
 * Tipagem forte com TypeScript
