@@ -8,6 +8,14 @@ O objetivo principal do projeto é permitir que o usuário **crie, visualize, at
 
 ---
 
+## 🖼️ Demonstração da Interface
+
+![Tela principal](./public/screenshots/home.png)
+![Lista de tarefas](./public/screenshots/tasks.png)
+![Lista de tarefas](./public/screenshots/empty.png)
+![Lista de tarefas](./public/screenshots/edit.png)
+
+---
 ## 🎯 Objetivos do Projeto
 
 * Aplicar conceitos modernos de **React e Next.js (App Router)**
