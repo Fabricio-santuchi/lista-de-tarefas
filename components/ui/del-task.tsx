@@ -11,7 +11,11 @@ import {
 } from "./alert-dialog";
 import { Button } from "./button";
 
-const DelTask = () => {
+type DeltasksProps = {
+  clearCompletedTasks: () => Promise<void>;
+};
+
+const DelTask = ({ clearCompletedTasks }: DeltasksProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -26,8 +30,15 @@ const DelTask = () => {
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction>Sim</AlertDialogAction>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className="cursor-pointer"
+            onClick={clearCompletedTasks}
+          >
+            Sim
+          </AlertDialogAction>
+          <AlertDialogCancel className="cursor-pointer">
+            Cancel
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
