@@ -1,5 +1,7 @@
 # 📋 Projeto: Lista de Tarefas (To-Do List)
 
+🔗 **Live Demo:** [Acessar aplicação](https://lista-de-tarefas-nine-blond.vercel.app)
+
 ## 📌 Visão Geral
 
 Este projeto é uma **aplicação web de lista de tarefas** desenvolvida com foco em boas práticas modernas de desenvolvimento **Fullstack**, utilizando **Next.js**, **React**, **TypeScript**, **Tailwind CSS**, **Prisma ORM** e **PostgreSQL**.
