@@ -13,9 +13,10 @@ import { Button } from "./button";
 
 type DeltasksProps = {
   clearCompletedTasks: () => Promise<void>;
+  completedCount: number;
 };
 
-const DelTask = ({ clearCompletedTasks }: DeltasksProps) => {
+const DelTask = ({ clearCompletedTasks, completedCount }: DeltasksProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -26,7 +27,7 @@ const DelTask = ({ clearCompletedTasks }: DeltasksProps) => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Tem certeza que deseja excluir x itens?
+            Tem certeza que deseja excluir {completedCount} itens?
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>

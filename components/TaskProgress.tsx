@@ -22,7 +22,7 @@ const TaskProgress = ({
         </p>
       </div>
 
-      <DelTask clearCompletedTasks={clearCompletedTasks} />
+      <DelTask clearCompletedTasks={clearCompletedTasks} completedCount={completedCount} />
     </div>
   );
 };
